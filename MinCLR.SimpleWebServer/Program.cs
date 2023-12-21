@@ -1,4 +1,6 @@
-﻿namespace MinCLR.SimpleWebServer
+﻿using Microsoft.Extensions.FileProviders;
+
+namespace MinCLR.SimpleWebServer
 {
     public class Program
     {
@@ -19,6 +21,13 @@
                 app.UseExceptionHandler("/Error");
             }
             app.UseStaticFiles();
+
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider("/"),
+                RequestPath = new PathString("/FileSystem"),
+                EnableDirectoryBrowsing = true
+            });
 
             app.UseRouting();
 
